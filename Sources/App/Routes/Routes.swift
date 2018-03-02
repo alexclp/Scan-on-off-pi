@@ -21,5 +21,6 @@ extension Droplet {
         get("description") { req in return req.description }
         
         try resource("scanSwitch", ScanSwitchController.self)
+        try resource("measurements", MeasurementController.self)
     }
 }

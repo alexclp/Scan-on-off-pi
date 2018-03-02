@@ -10,18 +10,21 @@ final class ScanSwitch: Model {
     var shouldScan: Bool
     var roomID: Int
     var locationID: Int
+    var storeData: Bool
 
     struct Keys {
         static let id = "id"
         static let shouldScan = "shouldScan"
         static let roomID = "roomID"
         static let locationID = "locationID"
+        static let storeData = "storeData"
     }
 
-    init(shouldScan: Bool, roomID: Int, locationID: Int) {
+    init(shouldScan: Bool, roomID: Int, locationID: Int, storeData: Bool) {
         self.shouldScan = shouldScan
         self.roomID = roomID
         self.locationID = locationID
+        self.storeData = storeData
     }
 
     // MARK: Fluent Serialization
@@ -30,6 +33,7 @@ final class ScanSwitch: Model {
         shouldScan = try row.get(ScanSwitch.Keys.shouldScan)
         roomID = try row.get(ScanSwitch.Keys.roomID)
         locationID = try row.get(ScanSwitch.Keys.locationID)
+        storeData = try row.get(ScanSwitch.Keys.storeData)
     }
 
     func makeRow() throws -> Row {
@@ -37,6 +41,7 @@ final class ScanSwitch: Model {
         try row.set(ScanSwitch.Keys.shouldScan, shouldScan)
         try row.set(ScanSwitch.Keys.roomID, roomID)
         try row.set(ScanSwitch.Keys.locationID, locationID)
+        try row.set(ScanSwitch.Keys.storeData, storeData)
         return row
     }
 }
@@ -51,6 +56,7 @@ extension ScanSwitch: Preparation {
             builder.bool(ScanSwitch.Keys.shouldScan)
             builder.int(ScanSwitch.Keys.roomID)
             builder.int(ScanSwitch.Keys.locationID)
+            builder.bool(ScanSwitch.Keys.storeData)
         }
     }
 
@@ -67,6 +73,7 @@ extension ScanSwitch: JSONConvertible {
         try json.set(ScanSwitch.Keys.shouldScan, shouldScan)
         try json.set(ScanSwitch.Keys.roomID, roomID)
         try json.set(ScanSwitch.Keys.locationID, locationID)
+        try json.set(ScanSwitch.Keys.storeData, storeData)
         return json
     }
 }
@@ -76,7 +83,8 @@ extension ScanSwitch: JSONInitializable {
         self.init(
             shouldScan: try json.get(ScanSwitch.Keys.shouldScan),
             roomID: try json.get(ScanSwitch.Keys.roomID),
-            locationID: try json.get(ScanSwitch.Keys.locationID)
+            locationID: try json.get(ScanSwitch.Keys.locationID),
+            storeData: try json.get(ScanSwitch.Keys.storeData)
         )
     }
 }
@@ -98,6 +106,9 @@ extension ScanSwitch: Updateable {
             },
             UpdateableKey(ScanSwitch.Keys.locationID, Int.self) { scanSwitch, locationID in
                 scanSwitch.locationID = locationID
+            },
+            UpdateableKey(ScanSwitch.Keys.storeData, Bool.self) { scanSwitch, storeData in
+                scanSwitch.storeData = storeData
             }
         ]
     }
